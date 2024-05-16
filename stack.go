@@ -15,16 +15,16 @@ func (stk *Stack[T]) Push(val T) {
 
 // Pop 弹栈
 func (stk *Stack[T]) Pop() T {
-	if stk.Empty() {
-		panic("空栈不能弹出元素！")
-	}
-	t := (*stk)[len(*stk)-1]
+	t := stk.Top()
 	*stk = (*stk)[:len(*stk)-1]
 	return t
 }
 
 // Top 获取栈顶元素
 func (stk *Stack[T]) Top() T {
+	if stk.Empty() {
+		panic("空栈不能取元素！")
+	}
 	return (*stk)[len(*stk)-1]
 }
 
