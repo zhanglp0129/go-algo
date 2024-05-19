@@ -14,6 +14,7 @@
 
 ### 栈
 - [源码](stack.go)
+- 文章链接：[文章](https://zhanglp.cn/archives/170)
 - 创建栈：`func NewStack[T any]() *Stack[T]`
 - 压栈：`func (stk *Stack[T]) Push(val T)`
 - 弹栈：`func (stk *Stack[T]) Pop() T`
