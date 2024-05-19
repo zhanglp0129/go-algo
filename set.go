@@ -34,6 +34,7 @@ func (st *Set[T]) Empty() bool {
 	return len(*st) == 0
 }
 
+// Iterate 遍历集合，必须使用for-range遍历
 func (st *Set[T]) Iterate() <-chan T {
 	ch := make(chan T, 1)
 	go func() {
