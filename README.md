@@ -3,7 +3,7 @@
 
 ## 常用数据结构
 ### 队列
-- 源码链接：[源码](queue.go)
+- [源码](queue.go)
 - 文章链接：[文章](https://zhanglp.cn/archives/156)
 - 创建队列：`func NewQueue[T any]() *Queue[T]`
 - 入队：`func (q *Queue[T]) Push(val T)`
@@ -13,6 +13,7 @@
 - 判断队列是否为空：`func (q *Queue[T]) Empty() bool`
 
 ### 栈
+- [源码](stack.go)
 - 创建栈：`func NewStack[T any]() *Stack[T]`
 - 压栈：`func (stk *Stack[T]) Push(val T)`
 - 弹栈：`func (stk *Stack[T]) Pop() T`
@@ -21,6 +22,7 @@
 - 判断栈是否为空：`func (stk *Stack[T]) Empty() bool`
 
 ### Set集合
+- [源码](set.go)
 - 创建Set集合：`func NewSet[T comparable]() *Set[T]`
 - 添加元素：`func (st *Set[T]) Insert(val T)`
 - 删除元素：`func (st *Set[T]) Erase(val T)`
