@@ -63,10 +63,10 @@ func orangesRotting(grid [][]int) int {
 
 	// 往队列中插入初始数据
 	for i := range grid {
-		for j, orange := range grid[i] {
-			if orange == 1 {
+		for j := range grid[i] {
+			if grid[i][j] == 1 {
 				count++
-			} else if orange == 2 {
+			} else if grid[i][j] == 2 {
 				q.Push(pair{i, j})
 			}
 		}
@@ -77,6 +77,7 @@ func orangesRotting(grid [][]int) int {
 		return 0
 	}
 
+	// 广度优先搜索
 	for !q.Empty() {
 		size := q.Size()
 		for size > 0 {
@@ -84,6 +85,7 @@ func orangesRotting(grid [][]int) int {
 			size--
 			x, y := p.x, p.y
 
+			// 遍历4个方向
 			for _, way := range ways {
 				dx, dy := way[0], way[1]
 				nx, ny := dx+x, dy+y
@@ -97,6 +99,7 @@ func orangesRotting(grid [][]int) int {
 		res++
 	}
 
+	// 没有全部腐烂
 	if count > 0 {
 		return -1
 	}
