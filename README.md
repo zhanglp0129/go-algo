@@ -31,3 +31,6 @@
 - 求集合大小：`func (st *Set[T]) Size() int`
 - 判断集合是否为空：`func (st *Set[T]) Empty() bool`
 - 遍历集合：`func (st *Set[T]) Iterate() <-chan T`
+
+## 解题模块
+在[解题](problems)模块中，会放一些OJ平台的算法题和题解。在解题过程中，会用到我提供的数据结构和算法模板，主要展示如何用我的模板解题
