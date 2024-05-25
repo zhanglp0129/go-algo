@@ -6,7 +6,7 @@ import (
 
 type PriorityQueue[T any] struct {
 	c    []T               // 存储数据
-	comp func(a, b T) bool // 比较函数
+	comp func(a, b T) bool // 比较函数。满足：comp(子结点, 父结点)==true；右边的元素优先级更高
 }
 
 // NewPriorityQueue 创建一个优先队列，默认为大根堆
@@ -16,7 +16,7 @@ func NewPriorityQueue[T cmp.Ordered]() *PriorityQueue[T] {
 	})
 }
 
-// NewPriorityQueueFunc 创建一个一个优先队列，<表示大根堆，>表示小根堆
+// NewPriorityQueueFunc 创建一个优先队列，<表示大根堆，>表示小根堆
 func NewPriorityQueueFunc[T any](comp func(a, b T) bool) *PriorityQueue[T] {
 	return &PriorityQueue[T]{
 		c:    make([]T, 0, 15),
@@ -26,10 +26,10 @@ func NewPriorityQueueFunc[T any](comp func(a, b T) bool) *PriorityQueue[T] {
 
 // Push 往优先队列插入一个元素
 func (pq *PriorityQueue[T]) Push(val T) {
-	// 满足：父结点=(子结点-1)/2；comp(子结点, 父结点)==true，父结点的优先级一定高于子结点
+	// 满足：子结点=i，父结点=(i-1)/2
 	pq.c = append(pq.c, val)
 	for i := len(pq.c) - 1; i > 0 && pq.comp(pq.c[(i-1)/2], pq.c[i]); i = (i - 1) / 2 {
-		// 如果父子结点关系不满足comp，则交换
+		// 如果父子结点关系不满足comp(子结点, 父结点)，则交换
 		pq.c[i], pq.c[(i-1)/2] = pq.c[(i-1)/2], pq.c[i]
 	}
 }
@@ -45,9 +45,10 @@ func (pq *PriorityQueue[T]) Pop() T {
 	for 2*i+1 < len(pq.c) {
 		j := 2*i + 1 // j指向优先级更高的子结点
 		if 2*i+2 < len(pq.c) && pq.comp(pq.c[2*i+1], pq.c[2*i+2]) {
-			j = 2*i + 2
+			j = 2*i + 2 // 2*i+2优先级更高
 		}
-		if pq.comp(pq.c[i], pq.c[j]) {
+
+		if pq.comp(pq.c[i], pq.c[j]) { // 父子结点关系不满足comp(子结点, 父结点)
 			pq.c[i], pq.c[j] = pq.c[j], pq.c[i]
 		} else {
 			break
