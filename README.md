@@ -32,3 +32,28 @@
 - 获取堆顶元素：`func (pq *PriorityQueue[T]) Top() T`
 - 求优先队列大小：`func (pq *PriorityQueue[T]) Size() int`
 - 判断优先队列是否为空：`func (pq *PriorityQueue[T]) Empty() bool`
+
+### 无序集合
+- [源码](unordered_set.go)
+- 创建无序集合，仅支持整数类型：`func NewUnorderedSet[T number]() *UnorderedSet[T]`
+- 创建无序集合，需传入哈希函数和相等判断函数：`func NewUnorderedSetFunc[T any](hash func(a T) uint64, equal func(a, b T) bool) *UnorderedSet[T]`
+- 插入一个元素：`func (us *UnorderedSet[T]) Insert(val T)`
+- 删除一个元素：`func (us *UnorderedSet[T]) Erase(val T)`
+- 判断集合中是否存在该元素：`func (us *UnorderedSet[T]) Contains(val T) bool`
+- 求集合大小：`func (us *UnorderedSet[T]) Size() int`
+- 判断集合是否为空：`func (us *UnorderedSet[T]) Empty() bool`
+- 遍历集合：
+    - 将内置迭代器指向初始位置：`func (us *UnorderedSet[T]) ToBegin()`
+    - 将内置迭代器指向下一个位置，并返回是否成功：`func (us *UnorderedSet[T]) Next() bool`
+    - 获取当前迭代器指向的元素：`func (us *UnorderedSet[T]) Get() T`
+    - 示例：
+    ```go
+    us := NewUnorderedSet[int]()
+    us.ToBegin()    // 遍历前先复位
+    for us.Next() {
+        v := us.Get()   // 获取当前遍历的元素
+        fmt.Println(v)
+    }
+    ```
+
+    
