@@ -1,5 +1,6 @@
 # go-algo
-用Golang刷算法系列源码，提供了多种常用数据结构的实现模板，在做算法题时，直接复制到代码前即可
+1. 用Golang刷算法系列源码，提供了多种常用数据结构的实现模板，在做算法题时，直接复制到代码前即可
+2. 代码api与C++的STL基本相同，只是进行少数修改
 
 ## 常用数据结构
 ### 队列
@@ -21,3 +22,13 @@
 - 获取栈顶元素：`func (stk *Stack[T]) Top() T`
 - 获取栈大小：`func (stk *Stack[T]) Size() int`
 - 判断栈是否为空：`func (stk *Stack[T]) Empty() bool`
+
+### 优先队列
+- [源码](priority_queue.go)
+- 创建优先队列，默认为大根堆：`func NewPriorityQueue[T cmp.Ordered]() *PriorityQueue[T]`
+- 创建优先队列，\<表示大根堆，\>表示小根堆：`func NewPriorityQueueFunc[T any](comp func(a, b T) bool) *PriorityQueue[T]`
+- 入队：`func (pq *PriorityQueue[T]) Push(val T)`
+- 出队：`func (pq *PriorityQueue[T]) Pop() T`
+- 获取堆顶元素：`func (pq *PriorityQueue[T]) Top() T`
+- 求优先队列大小：`func (pq *PriorityQueue[T]) Size() int`
+- 判断优先队列是否为空：`func (pq *PriorityQueue[T]) Empty() bool`
