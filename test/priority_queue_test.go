@@ -23,6 +23,9 @@ func TestHeapSort(t *testing.T) {
 	s := make([]int, 0, 100)
 	for !pq.Empty() {
 		s = append(s, pq.Pop())
+		if len(s)+pq.Size() != 100 {
+			t.Fatal("堆排序测试失败，优先队列中元素个数不正确")
+		}
 	}
 
 	// 验证有序性
@@ -30,10 +33,6 @@ func TestHeapSort(t *testing.T) {
 		if s[i] < s[i-1] {
 			t.Fatal("堆排序测试失败，排序后未保证有序性")
 		}
-	}
-	// 验证长度
-	if len(s) != 100 {
-		t.Fatal("堆排序测试失败，排序后长度变化")
 	}
 }
 
@@ -61,6 +60,11 @@ func TestPriorityQueueRandomPushPop(t *testing.T) {
 				t.Fatal("测试优先队列随机插入删除失败，堆顶元素不是最大")
 			}
 			in = in[:len(in)-1]
+		}
+
+		// 测试长度
+		if len(in) != pq.Size() {
+			t.Fatal("测试优先队列随机插入删除失败，优先队列中元素个数不正确")
 		}
 	}
 }
