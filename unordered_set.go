@@ -1,9 +1,5 @@
 package go_algo
 
-import (
-	"math/rand"
-)
-
 // UnorderedSet 无序集合
 type UnorderedSet[T any] struct {
 	bucket   []*listNode[T]    // 存储桶
@@ -39,7 +35,7 @@ func NewUnorderedSet[T number]() *UnorderedSet[T] {
 // NewUnorderedSetFunc 创建无序集合，需传入hash函数和相等判断函数
 func NewUnorderedSetFunc[T any](hash func(a T) uint64, equal func(a, b T) bool) *UnorderedSet[T] {
 	return &UnorderedSet[T]{
-		bucket:   make([]*listNode[T], 17),
+		bucket:   make([]*listNode[T], 8),
 		size:     0,
 		hash:     hash,
 		equal:    equal,
@@ -55,13 +51,8 @@ func (us *UnorderedSet[T]) Insert(val T) {
 	}
 
 	if us.size == len(us.bucket) {
-		// 扩容，长度为原来的2倍+1或-1
+		// 扩容，长度为原来的2倍
 		var newBucket []*listNode[T]
-		if rand.Int()%2 == 1 {
-			newBucket = make([]*listNode[T], 2*us.size+1)
-		} else {
-			newBucket = make([]*listNode[T], 2*us.size-1)
-		}
 
 		// 拷贝到newBucket
 		us.ToBegin()    // 先复位迭代器
@@ -79,7 +70,7 @@ func (us *UnorderedSet[T]) Insert(val T) {
 
 // 中间函数：往指定存储桶中插入一个元素
 func (us *UnorderedSet[T]) insertIntoBucket(bucket []*listNode[T], val T) {
-	idx := us.hash(val) % uint64(len(bucket))
+	idx := us.hash(val) & uint64(len(bucket)-1)
 	if bucket[idx] == nil { // 头节点为空
 		bucket[idx] = &listNode[T]{val, nil}
 	} else { // 头节点不为空
@@ -97,7 +88,7 @@ func (us *UnorderedSet[T]) Erase(val T) {
 		return
 	}
 
-	idx := us.hash(val) % uint64(len(us.bucket))
+	idx := us.hash(val) & uint64(len(us.bucket)-1)
 	if us.equal(us.bucket[idx].data, val) {
 		us.bucket[idx] = us.bucket[idx].next
 	} else {
@@ -112,7 +103,7 @@ func (us *UnorderedSet[T]) Erase(val T) {
 
 // Contains 判断集合中是否存在该元素
 func (us *UnorderedSet[T]) Contains(val T) bool {
-	idx := us.hash(val) % uint64(len(us.bucket))
+	idx := us.hash(val) & uint64(len(us.bucket)-1)
 	head := us.bucket[idx]
 	for head != nil {
 		if us.equal(head.data, val) {
